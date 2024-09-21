@@ -19,6 +19,55 @@ func TestMain(m *testing.M) {
 	fmt.Println("AFTER UNIT TEST")
 }
 
+func BenchmarkTable(b *testing.B) {
+	benchmarks := []struct {
+		name    string
+		request string
+	}{
+		{
+			name:    "Afif",
+			request: "Afif",
+		},
+		{
+			name:    "Ilham",
+			request: "Ilham",
+		},
+	}
+
+	for _, benchmark := range benchmarks {
+		b.Run(benchmark.name, func(b *testing.B) {
+			for i := 0; i < b.N; i++ {
+				HelloWorld(benchmark.request)
+			}
+		})
+	}
+}
+
+func BenchmarkSub(b *testing.B) {
+	b.Run("Afif", func(b *testing.B) {
+		for i := 0; i < b.N; i++ {
+			HelloWorld("Afif")
+		}
+	})
+	b.Run("Caniago", func(b *testing.B) {
+		for i := 0; i < b.N; i++ {
+			HelloWorld("Caniago")
+		}
+	})
+}
+
+func BenchmarkHelloWorldAfif(b *testing.B) {
+	for i := 0; i < b.N; i++ {
+		HelloWorld("Afif Ilham Caniago")
+	}
+}
+
+func BenchmarkHelloWorldMulyono(b *testing.B) {
+	for i := 0; i < b.N; i++ {
+		HelloWorld("Joko Widodo")
+	}
+}
+
 func TestTableHelloWorld(t *testing.T) {
 	tests := []struct {
 		name     string
@@ -57,7 +106,7 @@ func TestSubTest(t *testing.T) {
 	})
 	t.Run("Ilham", func(t *testing.T) {
 		result := HelloWorld("ilham")
-		assert.Equal(t, "Hi ilham", result, "Result must be 'Hello ilham'")
+		assert.Equal(t, "Hello ilham", result, "Result must be 'Hello ilham'")
 	})
 }
 
